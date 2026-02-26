@@ -497,6 +497,42 @@
             transition: background-color 0.3s ease;
         }
 
+        /* Final Comments Default Buttons */
+        .final-comments-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .default-comments {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .default-comment-btn {
+            background-color: #17a2b8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .default-comment-btn:hover {
+            background-color: #138496;
+        }
+
+        .default-comment-btn:active {
+            background-color: #117a8b;
+            transform: translateY(1px);
+        }
+
         .copy-history-btn:hover {
             background-color: #2980b9;
         }
@@ -585,7 +621,15 @@
 
                 <div class="evaluation-item">
                     <label>Final Comments</label>
-                    <textarea class="large-text-field" id="final-comments" placeholder="Final general comments..."></textarea>
+                    <div class="final-comments-container">
+                        <div class="default-comments">
+                            <button type="button" class="default-comment-btn" data-comment="Proceed into PPS">+ Proceed into PPS</button>
+                            <button type="button" class="default-comment-btn" data-comment="Proceed into Production">+ Proceed into Production</button>
+                            <button type="button" class="default-comment-btn" data-comment="Send 2x Photoshoots in size S (per colorway)">+ Send 2x Photoshoots in size S (per colorway)</button>
+                            <button type="button" class="default-comment-btn" data-comment="When production ready, send 2 shipment samples, size S + M">+ When production ready, send 2 shipment samples, size S + M</button>
+                        </div>
+                        <textarea class="large-text-field" id="final-comments" placeholder="Final general comments..."></textarea>
+                    </div>
                 </div>
             </section>
 
@@ -804,6 +848,27 @@
             document.getElementById('add-lining-btn').addEventListener('click', () => addLiningItem());
             document.getElementById('add-trim-btn').addEventListener('click', () => addTrimItem());
             document.getElementById('add-workmanship-btn').addEventListener('click', () => addWorkmanshipItem());
+
+            // Default comment buttons
+            document.querySelectorAll('.default-comment-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const finalComments = document.getElementById('final-comments');
+                    const comment = btn.getAttribute('data-comment');
+                    
+                    // Append the comment with proper spacing
+                    if (finalComments.value.trim() === '') {
+                        finalComments.value = comment;
+                    } else {
+                        finalComments.value += '\n' + comment;
+                    }
+                    
+                    // Add visual feedback
+                    btn.style.backgroundColor = '#117a8b';
+                    setTimeout(() => {
+                        btn.style.backgroundColor = '';
+                    }, 200);
+                });
+            });
 
             // Report buttons
             document.getElementById('generate-report-btn').addEventListener('click', generateReport);

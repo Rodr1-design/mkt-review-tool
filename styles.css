@@ -402,6 +402,42 @@ transition: background-color 0.3s ease;
     cursor: not-allowed;
 }
 
+/* Final Comments Default Buttons */
+.final-comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.default-comments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.default-comment-btn {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.default-comment-btn:hover {
+    background-color: #138496;
+}
+
+.default-comment-btn:active {
+    background-color: #117a8b;
+    transform: translateY(1px);
+}
+
 .history-btn {
     background-color: #6f42c1;
     color: white;

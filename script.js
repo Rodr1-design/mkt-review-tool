@@ -264,6 +264,27 @@ class GarmentEvaluationApp {
             this.createTrimElement('', true);
         });
 
+        // Default comment buttons
+        document.querySelectorAll('.default-comment-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const finalComments = document.getElementById('final-comments');
+                const comment = btn.getAttribute('data-comment');
+                
+                // Append the comment with proper spacing
+                if (finalComments.value.trim() === '') {
+                    finalComments.value = comment;
+                } else {
+                    finalComments.value += '\n' + comment;
+                }
+                
+                // Add visual feedback
+                btn.style.backgroundColor = '#117a8b';
+                setTimeout(() => {
+                    btn.style.backgroundColor = '';
+                }, 200);
+            });
+        });
+
         // Report format toggle
         document.querySelectorAll('input[name="report-format"]').forEach(radio => {
             radio.addEventListener('change', () => {
