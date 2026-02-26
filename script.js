@@ -6,13 +6,15 @@ class GarmentEvaluationApp {
         this.workmanshipIdCounter = 0;
         this.defaultTrims = [
             'Main label',
+            'Flag label',
             'Care label', 
-            'Size label',
+            'Hangtag',
+            'Special hangtag',
             'Buttons',
             'Zipper',
             'Drawcord',
             'Eyelets',
-            'Packaging'
+            'Snaps'
         ];
         this.defaultFabrics = [
             'Main Fabric',
@@ -24,10 +26,8 @@ class GarmentEvaluationApp {
             'Lining Colour'
         ];
         this.defaultWorkmanship = [
-            'Stitch Quality',
-            'Puckering',
+            'Stitch Quality and color',
             'Loose Threads',
-            'Seam Allowance',
             'Symmetry',
             'Overall Construction'
         ];
