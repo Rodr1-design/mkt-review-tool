@@ -41,6 +41,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated all documentation and branding
   - Created single-file deployment version (MKT_review_tool.html)
 
+- **Default Comment System**
+  - Quick-insert buttons for common production instructions
+  - Pre-defined comments: "Proceed into PPS", "Proceed into Production", "Send 2x Photoshoots", "Send shipment samples"
+  - Smart text insertion with proper spacing and formatting
+  - Visual feedback on button clicks with professional styling
+  - Enhanced user experience for repetitive comment tasks
+
 ### Changed
 - **Layout Optimization**
   - Increased container width from 800px to 1200px for better screen utilization
