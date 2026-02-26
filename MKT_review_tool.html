@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MKT Review Tool</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        h2 {
+            color: #34495e;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .evaluation-item {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .large-text-field {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .dynamic-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .dynamic-item-name {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .dynamic-item-controls {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            flex: 2;
+            align-items: flex-start;
+        }
+
+        .dynamic-item-controls .status-dropdown {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .dynamic-item-controls .comment-field {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        /* Measurements section side-by-side layout */
+        .measurements-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .measurement-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .measurement-row .status-dropdown {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .measurement-row .large-text-field {
+            flex: 2;
+            min-width: 300px;
+            min-height: 60px;
+        }
+
+        .delete-item-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .delete-item-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .add-item-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .add-item-btn:hover {
+            background-color: #219a52;
+        }
+
+        .trim-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .trim-name-input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .trim-controls {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            flex: 2;
+            align-items: flex-start;
+        }
+
+        .trim-controls .status-with-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .trim-controls .trim-comment {
+            flex: 2;
+            min-width: 300px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-height: 50px;
+            resize: vertical;
+        }
+
+        .trim-status {
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .delete-trim-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s ease;
+            align-self: flex-start;
+        }
+
+        .delete-trim-btn:hover {
+            background-color: #c0392b;
+        }
+
+        .add-trim-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .add-trim-btn:hover {
+            background-color: #219a52;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .generate-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 24px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            background-color: #219a52;
+        }
+
+        .copy-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-btn:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+
+        .export-btn {
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .export-btn:hover:not(:disabled) {
+            background-color: #8e44ad;
+        }
+
+        .history-btn {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .history-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .clear-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background-color: #c0392b;
+        }
+
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        .report-output {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            min-height: 200px;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+
+        .status-approved {
+            border-color: #27ae60;
+            background-color: #d5f4e6;
+        }
+
+        .status-approved-with-corrections {
+            border-color: #f39c12;
+            background-color: #fef5e7;
+        }
+
+        .status-not-approved {
+            border-color: #e74c3c;
+            background-color: #fadbd8;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-indicator.approved {
+            background-color: #27ae60;
+        }
+
+        .status-indicator.approved-with-corrections {
+            background-color: #f39c12;
+        }
+
+        .status-indicator.not-approved {
+            background-color: #e74c3c;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .modal-title {
+            font-size: 1.5em;
+            color: #2c3e50;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+
+        .close-modal:hover {
+            color: #2c3e50;
+        }
+
+        .history-item {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .history-date {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .history-content {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            font-size: 0.9em;
+            line-height: 1.4;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-actions {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .copy-history-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-history-btn:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MKT Review Tool</h1>
+            <p class="subtitle">Comprehensive Sample Evaluation System</p>
+        </header>
+
+        <form id="evaluation-form">
+            <!-- Fabrics & Wash Section -->
+            <section class="section" id="fabrics-wash">
+                <h2>Fabrics & Wash</h2>
+                <div class="dynamic-items-container" id="fabrics-container">
+                    <!-- Default fabric items will be added here by JavaScript -->
+                </div>
+                <button type="button" class="add-item-btn" id="add-fabric-btn">+ Add Fabric</button>
+            </section>
+
+            <!-- Lining Section -->
+            <section class="section" id="lining">
+                <h2>Lining</h2>
+                <div class="dynamic-items-container" id="lining-container">
+                    <!-- Default lining items will be added here by JavaScript -->
+                </div>
+                <button type="button" class="add-item-btn" id="add-lining-btn">+ Add Lining</button>
+            </section>
+
+            <!-- Trims Section -->
+            <section class="section" id="trims">
+                <h2>Trims</h2>
+                <div class="trims-container" id="trims-container">
+                    <!-- Default trims will be added here by JavaScript -->
+                </div>
+                <button type="button" class="add-trim-btn" id="add-trim-btn">+ Add Trim</button>
+            </section>
+
+            <!-- Measurements Section -->
+            <section class="section" id="measurements">
+                <h2>Measurements</h2>
+                
+                <div class="measurements-container">
+                    <div class="measurement-row">
+                        <label>Overall Measurement Status</label>
+                        <select class="status-dropdown" data-section="measurements" data-item="overall-status">
+                            <option value="">Select Status</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Approved with corrections">Approved with corrections</option>
+                            <option value="Not Approved">Not Approved</option>
+                        </select>
+                    </div>
+
+                    <div class="measurement-row">
+                        <label>Required Changes</label>
+                        <textarea class="large-text-field" id="required-changes" placeholder="Describe fit vs spec, length adjustments, width corrections, balance issues, exact cm changes required..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Workmanship Section -->
+            <section class="section" id="workmanship">
+                <h2>Workmanship</h2>
+                <div class="dynamic-items-container" id="workmanship-container">
+                    <!-- Workmanship items will be added here by JavaScript -->
+                </div>
+                <button type="button" class="add-item-btn" id="add-workmanship-btn">+ Add Workmanship Item</button>
+            </section>
+
+            <!-- Final Decision Section -->
+            <section class="section" id="final-decision">
+                <h2>Final Decision</h2>
+                
+                <div class="evaluation-item">
+                    <label>Decision</label>
+                    <select class="status-dropdown" id="final-decision-dropdown">
+                        <option value="">Select Decision</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Approved with comments">Approved with comments</option>
+                        <option value="Resubmit">Resubmit</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+
+                <div class="evaluation-item">
+                    <label>Final Comments</label>
+                    <textarea class="large-text-field" id="final-comments" placeholder="Final general comments..."></textarea>
+                </div>
+            </section>
+
+            <!-- Report Generation Section -->
+            <section class="section" id="report-section">
+                <h2>Generated Report</h2>
+                <div class="report-actions">
+                    <button type="button" class="generate-btn" id="generate-report-btn">Generate Report</button>
+                    <button type="button" class="copy-btn" id="copy-report-btn" disabled>Copy to Clipboard</button>
+                    <button type="button" class="export-btn" id="export-report-btn" disabled>Export to .txt</button>
+                    <button type="button" class="history-btn" id="view-history-btn">View History</button>
+                    <button type="button" class="clear-btn" id="clear-history-btn">Clear History</button>
+                </div>
+                <div id="report-content" class="report-output" style="display: none;"></div>
+            </section>
+        </form>
+    </div>
+
+    <!-- History Modal -->
+    <div id="history-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Report History</h3>
+                <button class="close-modal" id="close-history-modal">&times;</button>
+            </div>
+            <div id="history-list">
+                <!-- History items will be added here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application state
+        let fabricCount = 0;
+        let liningCount = 0;
+        let trimCount = 0;
+        let workmanshipCount = 0;
+        let currentReport = '';
+
+        // Default items for each section
+        const defaultFabrics = ['Main Fabric', 'Contrast Fabric'];
+        const defaultLinings = ['Main Lining', 'Pocket Lining'];
+        const defaultTrims = ['Buttons', 'Zippers', 'Labels'];
+        const defaultWorkmanship = ['Stitching', 'Seams', 'Finishing'];
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDefaultItems();
+            attachEventListeners();
+            setupStatusColorCoding();
+        });
+
+        // Initialize default items for each section
+        function initializeDefaultItems() {
+            // Add default fabrics
+            defaultFabrics.forEach(fabric => {
+                addFabricItem(fabric);
+            });
+
+            // Add default linings
+            defaultLinings.forEach(lining => {
+                addLiningItem(lining);
+            });
+
+            // Add default trims
+            defaultTrims.forEach(trim => {
+                addTrimItem(trim);
+            });
+
+            // Add default workmanship items
+            defaultWorkmanship.forEach(workmanship => {
+                addWorkmanshipItem(workmanship);
+            });
+        }
+
+        // Add a new fabric item
+        function addFabricItem(fabricName = '') {
+            fabricCount++;
+            const container = document.getElementById('fabrics-container');
+            const fabricItem = document.createElement('div');
+            fabricItem.className = 'dynamic-item';
+            fabricItem.innerHTML = `
+                <div class="dynamic-item-name">
+                    <input type="text" class="fabric-name-input" placeholder="Fabric name" value="${fabricName}">
+                </div>
+                <div class="dynamic-item-controls">
+                    <select class="status-dropdown" data-section="fabrics" data-item="fabric-${fabricCount}">
+                        <option value="">Select Status</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Approved with corrections">Approved with corrections</option>
+                        <option value="Not Approved">Not Approved</option>
+                    </select>
+                    <textarea class="comment-field" placeholder="Comments about this fabric..."></textarea>
+                </div>
+                <button type="button" class="delete-item-btn" onclick="deleteFabricItem(this)">Delete</button>
+            `;
+            container.appendChild(fabricItem);
+            attachStatusColorCoding(fabricItem.querySelector('.status-dropdown'));
+        }
+
+        // Add a new lining item
+        function addLiningItem(liningName = '') {
+            liningCount++;
+            const container = document.getElementById('lining-container');
+            const liningItem = document.createElement('div');
+            liningItem.className = 'dynamic-item';
+            liningItem.innerHTML = `
+                <div class="dynamic-item-name">
+                    <input type="text" class="lining-name-input" placeholder="Lining name" value="${liningName}">
+                </div>
+                <div class="dynamic-item-controls">
+                    <select class="status-dropdown" data-section="lining" data-item="lining-${liningCount}">
+                        <option value="">Select Status</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Approved with corrections">Approved with corrections</option>
+                        <option value="Not Approved">Not Approved</option>
+                    </select>
+                    <textarea class="comment-field" placeholder="Comments about this lining..."></textarea>
+                </div>
+                <button type="button" class="delete-item-btn" onclick="deleteLiningItem(this)">Delete</button>
+            `;
+            container.appendChild(liningItem);
+            attachStatusColorCoding(liningItem.querySelector('.status-dropdown'));
+        }
+
+        // Add a new trim item
+        function addTrimItem(trimName = '') {
+            trimCount++;
+            const container = document.getElementById('trims-container');
+            const trimItem = document.createElement('div');
+            trimItem.className = 'trim-item';
+            trimItem.innerHTML = `
+                <div class="trim-name-input">
+                    <input type="text" class="trim-name" placeholder="Trim name" value="${trimName}">
+                </div>
+                <div class="trim-controls">
+                    <div class="status-with-indicator">
+                        <span class="status-indicator"></span>
+                        <select class="trim-status" data-section="trims" data-item="trim-${trimCount}">
+                            <option value="">Select Status</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Approved with corrections">Approved with corrections</option>
+                            <option value="Not Approved">Not Approved</option>
+                        </select>
+                    </div>
+                    <textarea class="trim-comment" placeholder="Comments about this trim..."></textarea>
+                </div>
+                <button type="button" class="delete-trim-btn" onclick="deleteTrimItem(this)">Delete</button>
+            `;
+            container.appendChild(trimItem);
+            attachStatusColorCoding(trimItem.querySelector('.trim-status'));
+        }
+
+        // Add a new workmanship item
+        function addWorkmanshipItem(workmanshipName = '') {
+            workmanshipCount++;
+            const container = document.getElementById('workmanship-container');
+            const workmanshipItem = document.createElement('div');
+            workmanshipItem.className = 'dynamic-item';
+            workmanshipItem.innerHTML = `
+                <div class="dynamic-item-name">
+                    <input type="text" class="workmanship-name-input" placeholder="Workmanship item" value="${workmanshipName}">
+                </div>
+                <div class="dynamic-item-controls">
+                    <select class="status-dropdown" data-section="workmanship" data-item="workmanship-${workmanshipCount}">
+                        <option value="">Select Status</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Approved with corrections">Approved with corrections</option>
+                        <option value="Not Approved">Not Approved</option>
+                    </select>
+                    <textarea class="comment-field" placeholder="Comments about this workmanship item..."></textarea>
+                </div>
+                <button type="button" class="delete-item-btn" onclick="deleteWorkmanshipItem(this)">Delete</button>
+            `;
+            container.appendChild(workmanshipItem);
+            attachStatusColorCoding(workmanshipItem.querySelector('.status-dropdown'));
+        }
+
+        // Delete functions
+        function deleteFabricItem(button) {
+            button.parentElement.remove();
+        }
+
+        function deleteLiningItem(button) {
+            button.parentElement.remove();
+        }
+
+        function deleteTrimItem(button) {
+            button.parentElement.remove();
+        }
+
+        function deleteWorkmanshipItem(button) {
+            button.parentElement.remove();
+        }
+
+        // Attach event listeners
+        function attachEventListeners() {
+            // Add item buttons
+            document.getElementById('add-fabric-btn').addEventListener('click', () => addFabricItem());
+            document.getElementById('add-lining-btn').addEventListener('click', () => addLiningItem());
+            document.getElementById('add-trim-btn').addEventListener('click', () => addTrimItem());
+            document.getElementById('add-workmanship-btn').addEventListener('click', () => addWorkmanshipItem());
+
+            // Report buttons
+            document.getElementById('generate-report-btn').addEventListener('click', generateReport);
+            document.getElementById('copy-report-btn').addEventListener('click', copyToClipboard);
+            document.getElementById('export-report-btn').addEventListener('click', exportToTextFile);
+            document.getElementById('view-history-btn').addEventListener('click', showReportHistory);
+            document.getElementById('clear-history-btn').addEventListener('click', clearReportHistory);
+
+            // Modal controls
+            document.getElementById('close-history-modal').addEventListener('click', closeHistoryModal);
+            document.getElementById('history-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeHistoryModal();
+                }
+            });
+
+            // Enable/disable copy and export buttons based on report content
+            const reportContent = document.getElementById('report-content');
+            const observer = new MutationObserver(function(mutations) {
+                const hasContent = reportContent.textContent.trim() !== '';
+                document.getElementById('copy-report-btn').disabled = !hasContent;
+                document.getElementById('export-report-btn').disabled = !hasContent;
+            });
+            observer.observe(reportContent, { childList: true, characterData: true, subtree: true });
+        }
+
+        // Setup status color coding
+        function setupStatusColorCoding() {
+            const statusDropdowns = document.querySelectorAll('.status-dropdown, .trim-status');
+            statusDropdowns.forEach(dropdown => {
+                attachStatusColorCoding(dropdown);
+            });
+        }
+
+        // Attach status color coding to a specific dropdown
+        function attachStatusColorCoding(dropdown) {
+            dropdown.addEventListener('change', function() {
+                updateStatusColor(this);
+            });
+        }
+
+        // Update status color
+        function updateStatusColor(dropdown) {
+            const status = dropdown.value;
+            const indicator = dropdown.previousElementSibling;
+            
+            if (indicator && indicator.classList.contains('status-indicator')) {
+                indicator.className = 'status-indicator';
+                if (status === 'Approved') {
+                    indicator.classList.add('approved');
+                } else if (status === 'Approved with corrections') {
+                    indicator.classList.add('approved-with-corrections');
+                } else if (status === 'Not Approved') {
+                    indicator.classList.add('not-approved');
+                }
+            }
+
+            // Update parent element class for styling
+            const parentElement = dropdown.closest('.dynamic-item, .trim-item');
+            if (parentElement) {
+                parentElement.className = parentElement.className.replace(/status-\w+/g, '');
+                if (status) {
+                    const statusClass = 'status-' + status.toLowerCase().replace(/\s+/g, '-');
+                    parentElement.classList.add(statusClass);
+                }
+            }
+        }
+
+        // Generate report
+        function generateReport() {
+            currentReport = generateWrittenReport();
+            displayReport(currentReport);
+            saveReportToHistory(currentReport);
+        }
+
+        // Display report
+        function displayReport(report) {
+            const reportContent = document.getElementById('report-content');
+            reportContent.style.display = 'block';
+            reportContent.innerHTML = `<pre>${report}</pre>`;
+        }
+
+        // Generate written report
+        function generateWrittenReport() {
+            let report = 'MKT REVIEW REPORT\n';
+            report += '==================\n\n';
+
+            // Fabrics & Wash section
+            report += 'FABRICS & WASH\n';
+            report += '--------------\n';
+            const fabricItems = document.querySelectorAll('#fabrics-container .dynamic-item');
+            fabricItems.forEach(item => {
+                const name = item.querySelector('.fabric-name-input').value || 'Unnamed Fabric';
+                const status = item.querySelector('.status-dropdown').value;
+                const comment = item.querySelector('.comment-field').value;
+                const statusSymbol = getStatusSymbol(status);
+                
+                report += `${statusSymbol} ${name}\n`;
+                if (comment) report += `   Comments: ${comment}\n`;
+                report += '\n';
+            });
+
+            // Lining section
+            report += 'LINING\n';
+            report += '------\n';
+            const liningItems = document.querySelectorAll('#lining-container .dynamic-item');
+            liningItems.forEach(item => {
+                const name = item.querySelector('.lining-name-input').value || 'Unnamed Lining';
+                const status = item.querySelector('.status-dropdown').value;
+                const comment = item.querySelector('.comment-field').value;
+                const statusSymbol = getStatusSymbol(status);
+                
+                report += `${statusSymbol} ${name}\n`;
+                if (comment) report += `   Comments: ${comment}\n`;
+                report += '\n';
+            });
+
+            // Trims section
+            report += 'TRIMS\n';
+            report += '-----\n';
+            const trimItems = document.querySelectorAll('#trims-container .trim-item');
+            trimItems.forEach(item => {
+                const name = item.querySelector('.trim-name').value || 'Unnamed Trim';
+                const status = item.querySelector('.trim-status').value;
+                const comment = item.querySelector('.trim-comment').value;
+                const statusSymbol = getStatusSymbol(status);
+                
+                report += `${statusSymbol} ${name}\n`;
+                if (comment) report += `   Comments: ${comment}\n`;
+                report += '\n';
+            });
+
+            // Measurements section
+            report += 'MEASUREMENTS\n';
+            report += '------------\n';
+            const measurementStatus = document.querySelector('#measurements .status-dropdown').value;
+            const requiredChanges = document.getElementById('required-changes').value;
+            const measurementStatusSymbol = getStatusSymbol(measurementStatus);
+            
+            report += `${measurementStatusSymbol} Overall Status: ${measurementStatus}\n`;
+            if (requiredChanges) {
+                report += `Required Changes:\n${requiredChanges}\n`;
+            }
+            report += '\n';
+
+            // Workmanship section
+            report += 'WORKMANSHIP\n';
+            report += '-----------\n';
+            const workmanshipItems = document.querySelectorAll('#workmanship-container .dynamic-item');
+            workmanshipItems.forEach(item => {
+                const name = item.querySelector('.workmanship-name-input').value || 'Unnamed Workmanship Item';
+                const status = item.querySelector('.status-dropdown').value;
+                const comment = item.querySelector('.comment-field').value;
+                const statusSymbol = getStatusSymbol(status);
+                
+                report += `${statusSymbol} ${name}\n`;
+                if (comment) report += `   Comments: ${comment}\n`;
+                report += '\n';
+            });
+
+            // Final Decision section
+            report += 'FINAL DECISION\n';
+            report += '--------------\n';
+            const finalDecision = document.getElementById('final-decision-dropdown').value;
+            const finalComments = document.getElementById('final-comments').value;
+            const finalDecisionSymbol = getStatusSymbol(finalDecision);
+            
+            report += `${finalDecisionSymbol} Decision: ${finalDecision}\n`;
+            if (finalComments) {
+                report += `Final Comments:\n${finalComments}\n`;
+            }
+            report += '\n';
+
+            // Add timestamp
+            const now = new Date();
+            report += `Report generated on: ${now.toLocaleString()}\n`;
+
+            return report;
+        }
+
+        // Get status symbol
+        function getStatusSymbol(status) {
+            switch(status) {
+                case 'Approved': return '✅';
+                case 'Approved with corrections': return '⚠️';
+                case 'Approved with comments': return '⚠️';
+                case 'Not Approved': return '❌';
+                case 'Resubmit': return '🔄';
+                case 'Rejected': return '❌';
+                default: return '❓';
+            }
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const reportContent = document.getElementById('report-content');
+            navigator.clipboard.writeText(reportContent.textContent).then(function() {
+                alert('Report copied to clipboard!');
+            }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy report to clipboard.');
+            });
+        }
+
+        // Export to text file
+        function exportToTextFile() {
+            const reportContent = document.getElementById('report-content').textContent;
+            const blob = new Blob([reportContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `mkt-review-report-${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Save report to history
+        function saveReportToHistory(report) {
+            const history = JSON.parse(localStorage.getItem('mktReportHistory') || '[]');
+            const reportData = {
+                date: new Date().toISOString(),
+                content: report
+            };
+            
+            // Add to beginning of array
+            history.unshift(reportData);
+            
+            // Keep only last 50 reports
+            if (history.length > 50) {
+                history.splice(50);
+            }
+            
+            localStorage.setItem('mktReportHistory', JSON.stringify(history));
+        }
+
+        // Load report history
+        function loadReportHistory() {
+            return JSON.parse(localStorage.getItem('mktReportHistory') || '[]');
+        }
+
+        // Clear report history
+        function clearReportHistory() {
+            if (confirm('Are you sure you want to clear all report history? This action cannot be undone.')) {
+                localStorage.removeItem('mktReportHistory');
+                closeHistoryModal();
+                alert('Report history cleared successfully.');
+            }
+        }
+
+        // Show report history
+        function showReportHistory() {
+            const history = loadReportHistory();
+            const historyList = document.getElementById('history-list');
+            const modal = document.getElementById('history-modal');
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<p>No report history found.</p>';
+            } else {
+                historyList.innerHTML = '';
+                history.forEach((report, index) => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    
+                    const date = new Date(report.date);
+                    const formattedDate = date.toLocaleString();
+                    
+                    historyItem.innerHTML = `
+                        <div class="history-date">${formattedDate}</div>
+                        <div class="history-content">${report.content}</div>
+                        <div class="history-actions">
+                            <button class="copy-history-btn" onclick="copyHistoryReport(${index})">Copy Report</button>
+                        </div>
+                    `;
+                    
+                    historyList.appendChild(historyItem);
+                });
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        // Close history modal
+        function closeHistoryModal() {
+            document.getElementById('history-modal').style.display = 'none';
+        }
+
+        // Copy history report
+        function copyHistoryReport(index) {
+            const history = loadReportHistory();
+            const report = history[index].content;
+            
+            navigator.clipboard.writeText(report).then(function() {
+                alert('Report copied to clipboard!');
+            }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy report to clipboard.');
+            });
+        }
+    </script>
+</body>
+</html>

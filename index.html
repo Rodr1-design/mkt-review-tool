@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garment Sample Evaluation Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Garment Sample Evaluation</h1>
+            <p class="subtitle">Single Sample Report Generator</p>
+        </header>
+
+        <main>
+            <!-- Fabric & Wash Section -->
+            <section class="section" id="fabric-wash">
+                <h2>Fabric & Wash</h2>
+                <div class="dynamic-items-container" id="fabric-container">
+                    <!-- Fabric items will be added here by JavaScript -->
+                </div>
+                <button type="button" class="add-item-btn" id="add-fabric-btn">+ Add Fabric Item</button>
+            </section>
+
+            <!-- Lining Section -->
+            <section class="section" id="lining">
+                <h2>Lining</h2>
+                <div class="dynamic-items-container" id="lining-container">
+                    <!-- Lining items will be added here by JavaScript -->
+                </div>
+                <button type="button" class="add-item-btn" id="add-lining-btn">+ Add Lining Item</button>
+            </section>
+
+            <!-- Trims Section -->
+            <section class="section" id="trims">
+                <h2>Trims</h2>
+                <div class="trims-container" id="trims-container">
+                    <!-- Default trims will be added here by JavaScript -->
+                </div>
+                <button type="button" class="add-trim-btn" id="add-trim-btn">+ Add Trim</button>
+            </section>
+
+            <!-- Measurements Section -->
+            <section class="section" id="measurements">
+                <h2>Measurements</h2>
+                
+                <div class="measurements-container">
+                    <div class="measurement-row">
+                        <label>Overall Measurement Status</label>
+                        <select class="status-dropdown" data-section="measurements" data-item="overall-status">
+                            <option value="">Select Status</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Approved with corrections">Approved with corrections</option>
+                            <option value="Not Approved">Not Approved</option>
+                        </select>
+                    </div>
+
+                    <div class="measurement-row">
+                        <label>Required Changes</label>
+                        <textarea class="large-text-field" id="required-changes" placeholder="Describe fit vs spec, length adjustments, width corrections, balance issues, exact cm changes required..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Workmanship Section -->
+            <section class="section" id="workmanship">
+                <h2>Workmanship</h2>
+                <div class="dynamic-items-container" id="workmanship-container">
+                    <!-- Workmanship items will be added here by JavaScript -->
+                </div>
+                <button type="button" class="add-item-btn" id="add-workmanship-btn">+ Add Workmanship Item</button>
+            </section>
+
+            <!-- Final Decision Section -->
+            <section class="section" id="final-decision">
+                <h2>Final Decision</h2>
+                
+                <div class="evaluation-item">
+                    <label>Decision</label>
+                    <select class="status-dropdown" id="final-decision-dropdown">
+                        <option value="">Select Decision</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Approved with comments">Approved with comments</option>
+                        <option value="Resubmit">Resubmit</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+
+                <div class="evaluation-item">
+                    <label>Final Comments</label>
+                    <textarea class="large-text-field" id="final-comments" placeholder="Final general comments..."></textarea>
+                </div>
+            </section>
+
+            <!-- Report Generation Section -->
+            <section class="section" id="report-section">
+                <h2>Generated Report</h2>
+                <div class="report-actions">
+                    <button type="button" class="generate-btn" id="generate-report-btn">Generate Report</button>
+                    <button type="button" class="copy-btn" id="copy-report-btn" disabled>Copy to Clipboard</button>
+                    <button type="button" class="export-btn" id="export-report-btn" disabled>Export to .txt</button>
+                    <button type="button" class="history-btn" id="view-history-btn">View History</button>
+                    <button type="button" class="clear-btn" id="clear-history-btn">Clear History</button>
+                </div>
+                <div class="report-output" id="report-output">
+                    <div id="report-content"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
